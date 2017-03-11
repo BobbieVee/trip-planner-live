@@ -20,5 +20,14 @@ $(document).ready(function(){
 	})
 	$('#activity-choices').append(options);
 
+	$("button.btn-primary").on('click',function(){
+		var sel = $(this).prev();
+		//var val = sel.val();
+		var text = sel.find(':selected').text();
+		var id = sel.find(':selected').val()
+		console.log('text and value',text,id)
+
+	})
+
 });
 
