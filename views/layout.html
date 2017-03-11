@@ -33,7 +33,13 @@
       var hotels = {{ hotels | dump | safe }};
       var restaurants = {{ restaurants | dump | safe }};
       var activities = {{ activities | dump | safe }};
+      var itineraries = [{
+        hotel: [],
+        activity: [],
+        restaurant: []
+      }]
     </script>
+
     <script src="/jquery/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQxgWt-LSZcEmTEN8581Uq9SzZHnpuys"></script>
