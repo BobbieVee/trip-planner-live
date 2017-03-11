@@ -20,6 +20,8 @@ $(document).ready(function(){
 	})
 	$('#activity-choices').append(options);
 
+
+	//Listening
 	$("button.btn-primary").on('click',function(){
 		var sel = $(this).prev();
 		var iType = sel.data('type');
@@ -29,6 +31,14 @@ $(document).ready(function(){
 		itineraryAdd(iType, id, 0);	
 
 	})
+
+	$("#itinerary").on('click','button',function(){
+		var id = $(this).val();
+		var iType = $(this).data('type');
+		
+		itineraryDelete(iType,id, 0);
+	})
+
 
 });
 
@@ -40,41 +50,33 @@ var itineraryAdd = function(type, id, day){
 	renderItinerary(day);
 };
 
+var itineraryDelete = function(type, id, day){
+	var oneDay = itineraries[day]
+
+	var arr = oneDay[type].reduce(function(result, item){
+    			if(item !== id){
+    				result.push(item);
+    			}
+    			return result;
+    		},[]);
+
+	oneDay[type] = arr;
+	renderItinerary(day);
+};
+
+
 var renderItinerary = function(day){
-	var html = '<div class="itinerary-item"> \
-       		<span class="title">TESTAndaz Wall Street</span> \
-            <button class="btn btn-xs btn-danger remove btn-circle">x</button> \
-            </div>'
 
     var todayItinerary = itineraries[day]
-    console.log(itineraries[day])
 
     var hotelsContainer = $('#itinerary').find('.list-group')[0];
     var restaurantsContainer = $('#itinerary').find('.list-group')[1];
     var activitiesContainer = $('#itinerary').find('.list-group')[2];
-    /*
-    //hotels rendering
-    $(hotelsContainer).empty();
-
-    renderedContent = todayItinerary['hotel'].map(function(hotel){
-    		var hotelObj = hotels.filter(function(item){
-    			return item.id===hotel*1
-    		})[0];
-    		return '<div class="itinerary-item"><span class="title">' + 
-    		hotelObj.name
-    		+ '</span></div>'
-    	}).join('')
-
-    $(hotelsContainer).append(renderedContent);*/
-
+  
     renderContainer(hotelsContainer,hotels, 'hotel',0);
 	renderContainer(restaurantsContainer,restaurants, 'restaurant',0);
 	renderContainer(activitiesContainer,activities, 'activity',0);
-    
 
-
-
-    //console.log('test', hotels)
 }
 
 function renderContainer(container, arr, type, day){
@@ -87,7 +89,9 @@ function renderContainer(container, arr, type, day){
     		})[0];
     		return '<div class="itinerary-item"><span class="title">' + 
     		Obj.name
-    		+ '</span></div>'
+    		+ '</span>' + 
+            '<button data-type='+type+' value='+Obj.id+' class="btn btn-xs btn-danger remove btn-circle">x</button>' +
+    		'</div>'
     	}).join('')
 
     $(container).append(renderedContent);
