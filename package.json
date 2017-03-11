@@ -6,7 +6,7 @@
   "scripts": {
     "build-css": "node-sass -w -r assets/stylesheets -o public/stylesheets",
     "start:production": "node app.js",
-    "start:dev": "nodemon -e html,css,js app.js",
+    "start:dev": "nodemon --ignore public/  app.js",
     "start": "npm run start:dev"
   },
   "author": "gabriel@fullstackacademy.com",
